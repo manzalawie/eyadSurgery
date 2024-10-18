@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>أثناء العملية</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container text-center mt-5">
+        <h1>أثناء العملية</h1>
+        <div class="row mt-4" id="image-container">
+            <!-- Images will be inserted here dynamically -->
+        </div>
+        <a href="index.html" class="btn btn-secondary mt-4 mb-4">العودة للرئيسية</a>
+    </div>
+
+    <!-- Modal to display the clicked image -->
+    <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-body text-center">
+                    <img id="modalImage" src="" class="img-fluid" alt="Image">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">اغلاق</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Function to dynamically load clickable images
+        function loadImages(folder, baseName, count) {
+            const container = document.getElementById('image-container');
+            for (let i = 1; i <= count; i++) {
+                const col = document.createElement('div');
+                col.classList.add('col-md-3', 'mb-3');
+
+                // Create image element
+                const img = document.createElement('img');
+                img.src = `${folder}/${baseName} (${i}).jpg`;
+                img.classList.add('img-fluid', 'clickable-image');
+                img.alt = `During Image ${i}`;
+                img.setAttribute('data-bs-toggle', 'modal');
+                img.setAttribute('data-bs-target', '#imageModal');
+                img.setAttribute('data-src', `${folder}/${baseName} (${i}).jpg`); // Store image source for modal
+
+                col.appendChild(img);
+                container.appendChild(col);
+            }
+        }
+
+        // Function to open the image in the modal
+        document.addEventListener('click', function (e) {
+            if (e.target.classList.contains('clickable-image')) {
+                const modalImage = document.getElementById('modalImage');
+                modalImage.src = e.target.getAttribute('data-src'); // Set the modal image source
+            }
+        });
+
+        // Load 8 images from the "during" folder
+        loadImages('images/during', '1', 14); // Loading images 1 (1).jpg to 1 (8).jpg
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
